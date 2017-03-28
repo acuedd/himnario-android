@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">Himnario</string>
     <string name="title_activity_main">MainActivity</string>
+    <string name="busqueda">Busqueda</string>
+    <string name="ajustes">Ajustes</string>
+    <string name="listas">Listas</string>
+    <string name="rapidos">Rápidos</string>
+    <string name="medios">Medios</string>
+    <string name="lentos">Lentos</string>
 </resources>
