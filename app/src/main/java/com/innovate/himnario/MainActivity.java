@@ -2,13 +2,20 @@ package com.innovate.himnario;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TabHost;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -20,6 +27,8 @@ public class MainActivity extends ActionBarActivity {
 
     DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
     DatabaseReference corosRef = rootRef.child("coros");
+
+    ArrayList<Coro> listaCompletaCoros;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +62,7 @@ public class MainActivity extends ActionBarActivity {
         ArrayAdapter<String> adapterSpinner = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_dropdown_item, spinnerItems);
         spinner.setAdapter(adapterSpinner);
 
-
+        listaCompletaCoros = new ArrayList<Coro>();
         //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         // setSupportActionBar(toolbar);
     }
@@ -61,26 +70,30 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        //ListView setup
-        String[] items = new String[]{"texto1", "texto2", "texto3"};
-        final ArrayAdapter<String> adapterList = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, items);
-        listView.setAdapter(adapterList);
-       /* corosRef.addValueEventListener(new ValueEventListener() {
+
+        final Query corosQuery = corosRef.orderByChild("orden");
+
+        corosQuery.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-
-                for(int i=0; i<dataSnapshot.getChildrenCount();i++) {
-                    DatabaseReference coroRef = corosRef.child(dataSnapshot.getValue(String.class));
-             //       adapterList.add(coroRef);
-
+                //ListView setup
+                for(DataSnapshot coroSnapshot: dataSnapshot.getChildren()) {
+                    listaCompletaCoros.add(coroSnapshot.getValue(Coro.class));
+                    Log.d(LOG_TAG, coroSnapshot.getValue(Coro.class).nombre);
                 }
+              //  CorosAdapter mCorosAdapter = new CorosAdapter(getApplicationContext(), listaCompletaCoros);
+                //listView.setAdapter(mCorosAdapter);
+
+                String[] items = new String[]{"texto1", "texto2", "texto3"};
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, items);
+                listView.setAdapter(adapter);
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
-        });*/
+        });
 
     }
 }
