@@ -2,7 +2,6 @@ package com.innovate.himnario;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -63,13 +62,6 @@ public class MainActivity extends ActionBarActivity {
         spinner.setAdapter(adapterSpinner);
 
         listaCompletaCoros = new ArrayList<Coro>();
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        // setSupportActionBar(toolbar);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
 
         final Query corosQuery = corosRef.orderByChild("orden");
 
@@ -77,16 +69,17 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //ListView setup
+                for(int i = 0; i<10;i++){
+                    listaCompletaCoros.add(dataSnapshot.getValue(Coro.class));
+                }
+                CorosAdapter mCorosAdapter = new CorosAdapter(getApplicationContext(), listaCompletaCoros, 0);
+                listView.setAdapter(mCorosAdapter);
+                listaCompletaCoros.clear();
                 for(DataSnapshot coroSnapshot: dataSnapshot.getChildren()) {
                     listaCompletaCoros.add(coroSnapshot.getValue(Coro.class));
-                    Log.d(LOG_TAG, coroSnapshot.getValue(Coro.class).nombre);
                 }
-              //  CorosAdapter mCorosAdapter = new CorosAdapter(getApplicationContext(), listaCompletaCoros);
-                //listView.setAdapter(mCorosAdapter);
-
-                String[] items = new String[]{"texto1", "texto2", "texto3"};
-                ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_list_item_1, items);
-                listView.setAdapter(adapter);
+                mCorosAdapter = new CorosAdapter(getApplicationContext(), listaCompletaCoros, 0);
+                listView.setAdapter(mCorosAdapter);
             }
 
             @Override
@@ -94,7 +87,6 @@ public class MainActivity extends ActionBarActivity {
 
             }
         });
-
     }
 }
 
