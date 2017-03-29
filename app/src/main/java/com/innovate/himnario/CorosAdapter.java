@@ -64,18 +64,37 @@ public class CorosAdapter extends ArrayAdapter<Coro> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         Coro coro = getItem(position);
 
-        if(convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_coros, parent, false);
+        View rowview = convertView;
+        ViewHolder viewHolder;
+
+        if(rowview == null) {
+            //convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_item_coros, parent, false);
+            viewHolder = new ViewHolder();
+            final LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            rowview = inflater.inflate(R.layout.list_item_coros, parent, false);
+
+            viewHolder.labelNombre = (TextView)rowview.findViewById(R.id.nombreCoro);
+            viewHolder.labelTonalidad = (TextView)rowview.findViewById(R.id.tonText);
+            viewHolder.labelVelocidad = (TextView)rowview.findViewById(R.id.velText);
+            rowview.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder)convertView.getTag();
         }
 
-        TextView labelNombre = (TextView)convertView.findViewById(R.id.nombreCoro);
+        viewHolder.labelNombre.setText(coro.nombre);
+        viewHolder.labelTonalidad.setText(coro.tonalidad);
+        LegibleText.setVelocidad(coro.vel_let);
+        String velocidad = LegibleText.getVelocidad();
+        viewHolder.labelVelocidad.setText(velocidad);
+
+   /*     TextView labelNombre = (TextView)convertView.findViewById(R.id.nombreCoro);
         TextView labelTonalidad = (TextView)convertView.findViewById(R.id.tonText);
         TextView labelVelocidad = (TextView)convertView.findViewById(R.id.velText);
 
         labelNombre.setText(coro.nombre);
         labelTonalidad.setText(coro.tonalidad);
-        labelVelocidad.setText(coro.vel_let);
+        labelVelocidad.setText(coro.vel_let);*/
 
-        return convertView;
+        return rowview;
     }
 }

@@ -69,16 +69,10 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //ListView setup
-                for(int i = 0; i<10;i++){
-                    listaCompletaCoros.add(dataSnapshot.getValue(Coro.class));
-                }
-                CorosAdapter mCorosAdapter = new CorosAdapter(getApplicationContext(), listaCompletaCoros, 0);
-                listView.setAdapter(mCorosAdapter);
-                listaCompletaCoros.clear();
                 for(DataSnapshot coroSnapshot: dataSnapshot.getChildren()) {
                     listaCompletaCoros.add(coroSnapshot.getValue(Coro.class));
                 }
-                mCorosAdapter = new CorosAdapter(getApplicationContext(), listaCompletaCoros, 0);
+                CorosAdapter mCorosAdapter = new CorosAdapter(getApplicationContext(), listaCompletaCoros, 0);
                 listView.setAdapter(mCorosAdapter);
             }
 
