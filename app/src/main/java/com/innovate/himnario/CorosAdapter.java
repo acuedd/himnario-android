@@ -82,18 +82,10 @@ public class CorosAdapter extends ArrayAdapter<Coro> {
         }
 
         viewHolder.labelNombre.setText(coro.nombre);
-        viewHolder.labelTonalidad.setText(coro.tonalidad);
+        viewHolder.labelTonalidad.setText(coro.ton);
         LegibleText.setVelocidad(coro.vel_let);
         String velocidad = LegibleText.getVelocidad();
         viewHolder.labelVelocidad.setText(velocidad);
-
-   /*     TextView labelNombre = (TextView)convertView.findViewById(R.id.nombreCoro);
-        TextView labelTonalidad = (TextView)convertView.findViewById(R.id.tonText);
-        TextView labelVelocidad = (TextView)convertView.findViewById(R.id.velText);
-
-        labelNombre.setText(coro.nombre);
-        labelTonalidad.setText(coro.tonalidad);
-        labelVelocidad.setText(coro.vel_let);*/
 
         return rowview;
     }
