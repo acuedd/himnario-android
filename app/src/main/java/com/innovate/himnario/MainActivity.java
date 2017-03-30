@@ -2,7 +2,10 @@ package com.innovate.himnario;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.view.View;
+import android.widget.AbsListView;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TabHost;
@@ -23,9 +26,12 @@ public class MainActivity extends ActionBarActivity {
     TabHost tabHost;
     Spinner spinner;
     ListView listView;
+    LinearLayout searchLayout;
 
-    DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
-    DatabaseReference corosRef = rootRef.child("coros");
+    //Firebase setup
+    FirebaseDatabase database = Utils.getDatabase();
+    DatabaseReference rootRef;
+    DatabaseReference corosRef;
 
     ArrayList<Coro> listaCompletaCoros;
 
@@ -34,9 +40,13 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        rootRef = database.getReference();
+        corosRef = rootRef.child("coros");
+
         tabHost = (TabHost)findViewById(R.id.tabHost);
         spinner = (Spinner)findViewById(R.id.spinner);
         listView = (ListView)findViewById(R.id.corosList);
+        searchLayout = (LinearLayout)findViewById(R.id.searchLayout);
 
         //Tab setup
         tabHost.setup();
@@ -78,6 +88,35 @@ public class MainActivity extends ActionBarActivity {
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
+            int mLastFirstVisibleItem = 0;
+            boolean isScrollingUp = false;
+
+            @Override
+            public void onScrollStateChanged(AbsListView absListView, int i) {
+
+                if (absListView.getId() == listView.getId()) {
+                    final int currentFirstVisibleItem = listView.getFirstVisiblePosition();
+                    if (currentFirstVisibleItem > mLastFirstVisibleItem){
+                        isScrollingUp = false;
+                        searchLayout.setVisibility(View.GONE);
+                    } else if (currentFirstVisibleItem < mLastFirstVisibleItem){
+                        isScrollingUp = true;
+                        searchLayout.setVisibility(View.VISIBLE);
+                    }
+
+                    mLastFirstVisibleItem = currentFirstVisibleItem;
+                }
+            }
+
+            @Override
+            public void onScroll(AbsListView absListView, int i, int i1, int i2) {
 
             }
         });

@@ -44,56 +44,65 @@
                     android:layout_height="match_parent"
                     android:orientation="vertical">
 
-                    <LinearLayout
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical">
-
-                        <SearchView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
-
-                        </SearchView>
+                        android:layout_height="match_parent">
 
                         <LinearLayout
+                            android:id="@+id/searchLayout"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal">
+                            android:orientation="vertical">
 
-                            <Button
-                                android:id="@+id/buttonLentos"
-                                android:layout_width="wrap_content"
+                            <SearchView
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                            </SearchView>
+
+                            <LinearLayout
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="@string/lentos" />
+                                android:orientation="horizontal">
 
-                            <Button
-                                android:id="@+id/buttonMedios"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="@string/medios" />
+                                <Button
+                                    android:id="@+id/buttonLentos"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="@string/lentos" />
 
-                            <Button
-                                android:id="@+id/buttonRapidos"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:text="@string/rapidos" />
+                                <Button
+                                    android:id="@+id/buttonMedios"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="@string/medios" />
 
-                            <Spinner
-                                android:id="@+id/spinner"
-                                android:layout_width="65dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1" />
+                                <Button
+                                    android:id="@+id/buttonRapidos"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_weight="1"
+                                    android:text="@string/rapidos" />
+
+                                <Spinner
+                                    android:id="@+id/spinner"
+                                    android:layout_width="65dp"
+                                    android:layout_height="match_parent"
+                                    android:layout_weight="1" />
+                            </LinearLayout>
+
                         </LinearLayout>
 
                         <ListView
                             android:id="@+id/corosList"
                             android:layout_width="match_parent"
-                            android:layout_height="match_parent" />
+                            android:layout_height="match_parent"
+                            android:layout_below="@+id/searchLayout"/>
 
-                    </LinearLayout>
+                    </RelativeLayout>
+
                 </LinearLayout>
 
                 <LinearLayout
