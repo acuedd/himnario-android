@@ -80,7 +80,11 @@ public class MainActivity extends ActionBarActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //ListView setup
                 for(DataSnapshot coroSnapshot: dataSnapshot.getChildren()) {
-                    listaCompletaCoros.add(coroSnapshot.getValue(Coro.class));
+                    Coro coro = coroSnapshot.getValue(Coro.class);
+                    int coroId = Integer.parseInt(coroSnapshot.getKey());
+                    if (coroId < 3000){
+                        listaCompletaCoros.add(coro);
+                    }
                 }
                 CorosAdapter mCorosAdapter = new CorosAdapter(getApplicationContext(), listaCompletaCoros, 0);
                 listView.setAdapter(mCorosAdapter);
