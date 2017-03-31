@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -64,10 +65,48 @@ public class MainActivity extends ActionBarActivity {
         loadDataFromDB(corosQuery);
 
         tabHost = (TabHost)findViewById(R.id.tabHost);
-        spinner = (Spinner)findViewById(R.id.spinner);
         listView = (ListView)findViewById(R.id.corosList);
         searchView = (SearchView)findViewById(R.id.searchView);
         searchLayout = (LinearLayout)findViewById(R.id.searchLayout);
+
+        //Spinner setup
+        spinner = (Spinner)findViewById(R.id.spinner);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                String auxTonalidad = "";
+                switch((int) l){
+                    case 0:
+                        auxTonalidad = "Ton.";
+                        break;
+                    case 1:
+                        auxTonalidad = "C";
+                        break;
+                    case 2:
+                        auxTonalidad = "Eb";
+                        break;
+                    case 3:
+                        auxTonalidad = "F";
+                        break;
+                    case 4:
+                        auxTonalidad = "G";
+                        break;
+                    case 5:
+                        auxTonalidad = "Bb";
+                        break;
+                    default:
+                        auxTonalidad = "Ton.";
+                        break;
+                }
+                Log.v(LOG_TAG, auxTonalidad+l);
+                filterContentForSearch("", auxTonalidad);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         //Buttons setup
         btnLentos = (Button)findViewById(R.id.buttonLentos);
@@ -143,7 +182,8 @@ public class MainActivity extends ActionBarActivity {
                     }
                 }
                 lentBtnAux = !lentBtnAux;
-                filterContentForSearch("","Ton.");
+
+                filterContentForSearch("", dbReadableTon(spinner.getSelectedItem().toString()));
             }
         });
 
@@ -151,6 +191,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 if (!medBtnAux) {
+
 
                     btnMedios.setBackgroundColor(0xFF7BAD3E);
                     velocidadesActivas.add("M");
@@ -160,7 +201,7 @@ public class MainActivity extends ActionBarActivity {
                     velocidadesActivas.remove("M");
                 }
                 medBtnAux = !medBtnAux;
-                filterContentForSearch("","Ton.");
+                filterContentForSearch("", dbReadableTon(spinner.getSelectedItem().toString()));
             }
         });
 
@@ -177,7 +218,7 @@ public class MainActivity extends ActionBarActivity {
                     velocidadesActivas.remove("R");
                 }
                 rapBtnAux = !rapBtnAux;
-                filterContentForSearch("","Ton.");
+                filterContentForSearch("", dbReadableTon(spinner.getSelectedItem().toString()));
             }
         });
     }
@@ -214,16 +255,16 @@ public class MainActivity extends ActionBarActivity {
         listaFiltrada = new ArrayList<>();
 
         if (velocidadesActivas.size() != 0) {
-            for(Coro coro: listaCompletaCoros){
+            for(Coro coro: listaCompletaCoros) {
                 if (tonalidad.equals("Ton.")) {         //Si no se esta filtrando por tonalidad
-                    for(String velocidad: velocidadesActivas) {
+                    for (String velocidad : velocidadesActivas) {
                         if (coro.vel_let.equals(velocidad)) {
                             listaFiltrada.add(coro);
                         }
                     }
                 } else {
                     if (coro.ton.equals(tonalidad)) {
-                        for(String velocidad: velocidadesActivas) {
+                        for (String velocidad : velocidadesActivas) {
                             if (coro.vel_let.equals(velocidad)) {
                                 listaFiltrada.add(coro);
                             }
@@ -231,14 +272,44 @@ public class MainActivity extends ActionBarActivity {
                     }
                 }
             }
-
             loadDataToListView(listaFiltrada);
-
         } else {
             //no se ha seleccionado ninguna lista. Cambiar esa linea porq si se filtra por tonalidades tenemos otro clavo
-            loadDataToListView(listaCompletaCoros);
+            for(Coro coro: listaCompletaCoros) {
+                if(tonalidad.equals("Ton.")) {
+                    loadDataToListView(listaCompletaCoros);
+                } else {
+                    if (coro.ton.equals(tonalidad)) {
+                        listaFiltrada.add(coro);
+                        loadDataToListView(listaFiltrada);
+                    }
+                }
+            }
         }
+    }
 
+    //returns a String for tonalidad that is recognized by the database
+    public String dbReadableTon(String tonalidad){
+        switch (tonalidad){
+            case "Do":
+                tonalidad = "C";
+                break;
+            case "Mib":
+                tonalidad = "Eb";
+                break;
+            case "Fa":
+                tonalidad = "F";
+                break;
+            case "Sol":
+                tonalidad = "G";
+                break;
+            case "Sib":
+                tonalidad = "Bb";
+                break;
+            default:
+                tonalidad = "Ton.";
+                break;
+        }
+        return tonalidad;
     }
 }
-
