@@ -25,7 +25,7 @@ public class CorosAdapter extends ArrayAdapter<Coro> {
         super(context, R.layout.list_item_coros);
         this.flags = flags;
         this.context = context;
-        this.allCoros = new ArrayList<Coro>(mCoros);
+        this.allCoros = new ArrayList<>(mCoros);
     }
 
     @Override

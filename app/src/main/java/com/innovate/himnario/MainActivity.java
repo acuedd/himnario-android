@@ -50,7 +50,6 @@ public class MainActivity extends ActionBarActivity {
     boolean medBtnAux = false;
     boolean lentBtnAux = false;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,8 +65,29 @@ public class MainActivity extends ActionBarActivity {
 
         tabHost = (TabHost)findViewById(R.id.tabHost);
         listView = (ListView)findViewById(R.id.corosList);
-        searchView = (SearchView)findViewById(R.id.searchView);
         searchLayout = (LinearLayout)findViewById(R.id.searchLayout);
+
+        //Searchview setup
+        searchView = (SearchView)findViewById(R.id.searchView);
+        searchView.setQueryHint("Buscar coro");
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                listaFiltrada = new ArrayList<>();
+                for(Coro coro: listaCompletaCoros) {
+                    if (coro.nombre.toUpperCase().contains(s.toUpperCase())){
+                        listaFiltrada.add(coro);
+                    }
+                }
+                loadDataToListView(listaFiltrada);
+                return false;
+            }
+        });
 
         //Spinner setup
         spinner = (Spinner)findViewById(R.id.spinner);
