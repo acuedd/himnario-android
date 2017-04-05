@@ -1,8 +1,9 @@
 package com.innovate.himnario;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.AbsListView;
@@ -25,7 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
 
     TabHost tabHost;
@@ -267,8 +268,17 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void loadDataToListView(ArrayList<Coro> lista) {
-        CorosAdapter mCorosAdapter = new CorosAdapter(getApplicationContext(), lista, 0);
+        final CorosAdapter mCorosAdapter = new CorosAdapter(getApplicationContext(), lista, 0);
         listView.setAdapter(mCorosAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Coro coro = mCorosAdapter.getItem(i);
+                int numCoro = coro.id;
+                Intent detailIntent = new Intent(getApplicationContext(), DetailActivity.class).putExtra("CORO_ID", numCoro);
+                startActivity(detailIntent);
+            }
+        });
     }
 
     public void filterContentForSearch(String text, String tonalidad) {

@@ -7,4 +7,18 @@
     <string name="rapidos">Rápidos</string>
     <string name="medios">Medios</string>
     <string name="lentos">Lentos</string>
+
+    <string name="tonalidad">Tonalidad:</string>
+    <string name="velocidad">Velocidad:</string>
+    <string name="tiempo">Tiempo:</string>
+    <string name="ton_alt">Otras Tonalidades:</string>
+    <string name="letra">Letra</string>
+    <string name="addCoros">Agregar Coros</string>
+    <string name="imagedescr">Agregar coro a lista</string>
+    <string name="escoger_lista">Escoger lista</string>
+    <string name="infoGen">Informacion General</string>
+    <string name="historia">Historia</string>
+    <string name="autorlet">Autor Letra:</string>
+    <string name="autormus">Autor Musica:</string>
+    <string name="cita">Cita:</string>
 </resources>
