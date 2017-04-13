@@ -10,7 +10,7 @@
         android:layout_height="match_parent"
         android:paddingTop="@dimen/fab_margin"
         android:paddingBottom="@dimen/fab_margin"
-        tools:context="com.innovate.himnario.DetailActivity"
+        tools:context="com.innovate.himnario.CoroDetailActivity"
         android:orientation="vertical"
         android:scrollbarAlwaysDrawVerticalTrack="true">
 

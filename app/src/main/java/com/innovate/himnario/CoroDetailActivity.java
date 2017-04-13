@@ -9,7 +9,7 @@ import android.widget.TextView;
  * Created by Joel on 05-Apr-17.
  */
 
-public class DetailActivity extends AppCompatActivity {
+public class CoroDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
