@@ -3,7 +3,6 @@ package com.innovate.himnario;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -151,7 +150,7 @@ public class BusquedaTab extends Fragment {
                 @Override
                 public void onClick(View v) {
                     if (mTwoPane) {
-                        CoroDetailFragment fragment = new CoroDetailFragment();
+                        CoroDetailTabletFragment fragment = new CoroDetailTabletFragment();
                         fragment.coro = coro;
                         getFragmentManager().beginTransaction()
                                 .replace(R.id.coro_detail_container, fragment)
@@ -159,9 +158,14 @@ public class BusquedaTab extends Fragment {
                     } else {
                         Context context = v.getContext();
                         Intent intent = new Intent(context, CoroDetailActivity.class);
-                        intent.putExtra("CORO", (Parcelable) coro);
+                        intent.putExtra("CORO", coro);
                         context.startActivity(intent);
                     }
+                   /* CoroDetailTabletFragment fragment = new CoroDetailTabletFragment();
+                    fragment.coro = coro;
+                    getFragmentManager().beginTransaction()
+                            .replace(R.id.coro_detail_container, fragment)
+                            .commit();*/
                 }
             });
         }
@@ -197,6 +201,7 @@ public class BusquedaTab extends Fragment {
                 for(DataSnapshot coroSnapshot: dataSnapshot.getChildren()) {
                     Coro coro = coroSnapshot.getValue(Coro.class);
                     int coroId = Integer.parseInt(coroSnapshot.getKey());
+                    coro.id = coroId;
                     if (coroId < 3000){
                         listaDeCoros.add(coro);
                     }
